@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+  Image,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useAuth } from "../context/AuthContext";
 
@@ -7,10 +15,14 @@ export default function DashboardScreen({ navigation }) {
   const { user, logout } = useAuth();
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <StatusBar style="light" />
 
-      <View style={styles.card}>
+      <Image
+        source={require("../../assets/zoqira_logo.png")}
+        style={styles.logo}
+      />
+      <View style={styles.welcomeCard}>
         <Text style={styles.welcome}>Welcome, {user?.name}!</Text>
         <Text style={styles.label}>
           Email: <Text style={styles.value}>{user?.email}</Text>
@@ -64,36 +76,66 @@ export default function DashboardScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
+      <View style={[styles.card, { marginTop: 12 }]}>
+        <Text style={styles.sectionTitle}>Programming Practice</Text>
+        <Text style={styles.sectionSubtitle}>Coding module – coming soon.</Text>
+        <TouchableOpacity
+          style={styles.ctaButton}
+          onPress={() =>
+            Alert.alert(
+              "Coming soon",
+              "Programming Practice will be available soon!"
+            )
+          }
+        >
+          <Text style={styles.ctaButtonText}>Start</Text>
+        </TouchableOpacity>
+      </View>
+
       <TouchableOpacity style={styles.logoutButton} onPress={logout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
+    flexGrow: 1,
+    backgroundColor: "#fff",
     padding: 20,
   },
-  card: {
+  welcomeCard: {
     backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 20,
+    borderRadius: 10,
+    padding: 18,
+    marginBottom: 16,
+    boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+  },
+  card: {
+    backgroundColor: "#f5faff",
+    borderRadius: 10,
+    padding: 18,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 3,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 4,
   },
   welcome: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 8,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 8,
   },
   label: {
     fontSize: 16,
@@ -106,8 +148,8 @@ const styles = StyleSheet.create({
   },
   info: {
     marginTop: 20,
-    padding: 15,
-    backgroundColor: "#f5f5f5",
+    padding: 12,
+    backgroundColor: "#fff",
     borderRadius: 8,
   },
   infoText: {
@@ -126,7 +168,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   ctaButton: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: "#000",
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",

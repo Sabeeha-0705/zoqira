@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+
+.zq-register-root {
+  display: flex;
+  min-height: calc(100vh - 64px);
+  background: #fff;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+}
+.zq-register-left {
+  flex: 0 0 60%;
+  position: relative;
+  overflow: hidden;
+}
+.zq-register-hero {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 600px;
+}
+.zq-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(41, 91, 255, 0.6),
+    rgba(74, 140, 255, 0.6)
+  );
+  mix-blend-mode: multiply;
+}
+.zq-register-right {
+  flex: 0 0 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+.zq-register-card {
+  background: #fff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(10, 30, 80, 0.08);
+  width: 100%;
+  max-width: 520px;
+}
+.zq-register-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #0b1b29;
+  margin-bottom: 8px;
+}
+.zq-register-sub {
+  color: #6b7280;
+  margin-bottom: 18px;
+}
+.zq-form-row {
+  margin-bottom: 14px;
+}
+.zq-terms {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  color: #6b7280;
+  font-size: 13px;
+}
+.zq-helper {
+  font-size: 12px;
+  color: #9aa6c0;
+  margin-top: 6px;
+}
+.zq-cta {
+  margin-top: 14px;
+}
+.zq-cta .zq-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 28px;
+  font-weight: 800;
+}
+.zq-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #9aa6c0;
+}
+.zq-bottom a {
+  color: var(--zq-accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Underline inputs - keep enough spacing on mobile */
+.zq-register-card .zq-input-wrapper {
+  margin-bottom: 12px;
+}
+.zq-register-card .zq-input-field {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0;
+  padding: 8px 0;
+  background: transparent;
+  box-shadow: none;
+}
+.zq-register-card .zq-input-label {
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+}
+.zq-register-card .zq-input {
+  padding: 6px 0;
+  font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .zq-register-root {
+    flex-direction: column;
+  }
+  .zq-register-left {
+    flex-basis: 100%;
+  }
+  .zq-register-hero {
+    min-height: 260px;
+  }
+  .zq-register-right {
+    flex-basis: 100%;
+    padding: 20px;
+  }
+  .zq-register-card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .zq-register-title {
+    font-size: 24px;
+  }
+  .zq-register-hero {
+    min-height: 220px;
+  }
+}

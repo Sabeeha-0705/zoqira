@@ -5,17 +5,20 @@ Modern React web application for ZOQIRA platform built with Vite.
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm or yarn
 
 ### Installation
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Create `.env` file:
+
 ```bash
 cp .env.example .env
 ```
@@ -23,6 +26,7 @@ cp .env.example .env
 3. Configure your `.env` file with the API URL
 
 4. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -60,6 +64,7 @@ web-client/
 ## 🔐 Authentication
 
 Authentication is handled through:
+
 - **AuthContext** - Global auth state management
 - **ProtectedRoute** - Route protection component
 - **JWT Tokens** - Stored in localStorage
@@ -68,6 +73,7 @@ Authentication is handled through:
 ### Protected Routes
 
 Routes wrapped in `ProtectedRoute` require authentication:
+
 - `/dashboard` - User dashboard (example)
 
 ### Public Routes
@@ -87,13 +93,23 @@ Routes wrapped in `ProtectedRoute` require authentication:
 ## 📡 API Integration
 
 All API calls go through the `api.js` service which:
+
 - Adds JWT token to requests automatically
 - Handles 401 errors (redirects to login)
 - Provides a centralized axios instance
 
 ## 🎨 Styling
 
-Currently using inline styles for scaffolding. You can replace with:
+Currently using inline styles for scaffolding and a small UI kit has been added to the project.
+See `/DESIGN_GUIDELINES.md` for full branding and component usage.
+
+Available UI kit bits (web):
+
+- `src/components/UI/Button.jsx` + `Button.css` — primary gradient and secondary buttons
+- `src/components/UI/Card.jsx` + `Card.css` — rounded cards with soft shadows
+
+You can adapt or replace with any styling library you prefer (CSS Modules, Tailwind, styled-components, etc.).
+
 - CSS Modules
 - Styled Components
 - Tailwind CSS
@@ -107,6 +123,7 @@ npm run build
 ```
 
 Preview production build:
+
 ```bash
 npm run preview
 ```
@@ -125,4 +142,3 @@ See `.env.example` for all required environment variables.
 ## 🤝 Contributing
 
 Follow React best practices and component-based architecture when adding features.
-

@@ -4,6 +4,8 @@
   "description": "ZOQIRA Web Client - React + Vite",
   "type": "module",
   "scripts": {
+    "test": "vitest",
+    "test:watch": "vitest --watch",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -17,6 +19,11 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.4",
+    "jsdom": "^22.1.0",
+    "vitest": "^1.4.3",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
@@ -25,6 +32,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "vite": "^5.0.8"
+  },
+  "vitest": {
+    "setupFiles": "./vitest.setup.js",
+    "environment": "jsdom"
   }
 }
-

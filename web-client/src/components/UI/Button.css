@@ -1,0 +1,29 @@
+.zq-btn {
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+.zq-primary {
+  background: var(--zq-brand-gradient);
+  color: var(--zq-white);
+  box-shadow: var(--shadow-soft);
+}
+.zq-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  filter: brightness(1.03);
+  box-shadow: 0 18px 48px rgba(41, 91, 255, 0.18);
+}
+.zq-secondary {
+  background: transparent;
+  color: var(--zq-blue-500);
+  border: 2px solid rgba(74, 140, 255, 0.12);
+}
+.zq-secondary:hover {
+  background: rgba(74, 140, 255, 0.06);
+}

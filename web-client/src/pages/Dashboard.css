@@ -1,0 +1,83 @@
+.zq-dashboard-root {
+  background: #fff;
+  min-height: calc(100vh - 64px);
+  padding: 32px;
+}
+.zq-dashboard-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.zq-dashboard-title {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+.zq-welcome-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.zq-welcome-card h2 {
+  margin: 0 0 8px 0;
+}
+.zq-small {
+  color: #555;
+  margin: 6px 0;
+}
+.zq-welcome-desc {
+  color: #777;
+  margin-top: 10px;
+}
+
+.zq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.zq-feature-card {
+  background: #f5faff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.zq-feature-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.zq-btn-black {
+  background: #000;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  margin-top: 12px;
+}
+.zq-btn-black:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 1024px) {
+  .zq-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .zq-grid {
+    grid-template-columns: 1fr;
+    padding: 0 8px;
+  }
+  .zq-dashboard-inner {
+    padding: 0 8px;
+  }
+  .zq-dashboard-title {
+    font-size: 28px;
+  }
+}

@@ -1,43 +1,59 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const { user } = useAuth();
 
+  const navigate = useNavigate();
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Dashboard</h1>
-      <div style={styles.grid}>
-        <div style={styles.card}>
+    <div className="zq-dashboard-root">
+      <div className="zq-dashboard-inner">
+        <h1 className="zq-dashboard-title">Dashboard</h1>
+
+        <div className="zq-welcome-card">
           <h2>Welcome, {user?.name}!</h2>
-          <p>Email: {user?.email}</p>
-          <p>Role: {user?.role}</p>
-          <div style={styles.info}>
-            <p>
-              This is a protected page. Only authenticated users can see this.
-            </p>
-            <p>Dashboard content to be implemented.</p>
+          <p className="zq-small">Email: {user?.email}</p>
+          <p className="zq-small">Role: {user?.role}</p>
+          <p className="zq-welcome-desc">
+            This is your personalized learning space in ZOQIRA.
+          </p>
+        </div>
+
+        <div className="zq-grid">
+          <div className="zq-feature-card">
+            <h3>Aptitude Practice</h3>
+            <p>Maths, Logical & Verbal Skills.</p>
+            <button
+              className="zq-btn-black"
+              onClick={() => navigate("/aptitude")}
+            >
+              Start
+            </button>
           </div>
-        </div>
-        <div style={{ ...styles.card, ...styles.highlightCard }}>
-          <h3>Aptitude Practice</h3>
-          <p>
-            Test your Quantitative, Logical, and Verbal skills with curated
-            aptitude questions.
-          </p>
-          <Link to="/aptitude" style={styles.ctaButton}>
-            Start Aptitude Practice
-          </Link>
-        </div>
-        <div style={{ ...styles.card, ...styles.highlightCard }}>
-          <h3>Communication Coach</h3>
-          <p>
-            Practice English speaking with an AI tutor. Improve your fluency,
-            interview skills, and technical communication.
-          </p>
-          <Link to="/communication" style={styles.ctaButton}>
-            Start Communication Practice
-          </Link>
+
+          <div className="zq-feature-card">
+            <h3>Communication Coach</h3>
+            <p>Improve speaking, fluency, & interviews.</p>
+            <button
+              className="zq-btn-black"
+              onClick={() => navigate("/communication")}
+            >
+              Start
+            </button>
+          </div>
+
+          <div className="zq-feature-card">
+            <h3>Programming Practice</h3>
+            <p>Coding & Technical Skills (Coming Soon).</p>
+            <button
+              className="zq-btn-black"
+              onClick={() => alert("Programming module coming soon!")}
+            >
+              Start
+            </button>
+          </div>
         </div>
       </div>
     </div>

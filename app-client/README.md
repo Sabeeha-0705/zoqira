@@ -5,6 +5,7 @@ React Native mobile application for ZOQIRA platform built with Expo.
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm or yarn
 - Expo CLI (`npm install -g expo-cli`)
@@ -13,17 +14,20 @@ React Native mobile application for ZOQIRA platform built with Expo.
 ### Installation
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Update API URL in `app.json`:
+
    - Find your computer's local IP address
    - Update the `extra.apiUrl` field in `app.json`
    - For Windows: Run `ipconfig` in terminal
    - For Mac/Linux: Run `ifconfig` in terminal
 
 3. Start the development server:
+
 ```bash
 npm start
 ```
@@ -58,6 +62,7 @@ app-client/
 ## 🔐 Authentication
 
 Authentication is handled through:
+
 - **AuthContext** - Global auth state management
 - **Navigation Guards** - Automatic screen switching based on auth state
 - **Secure Storage** - JWT tokens stored securely with expo-secure-store
@@ -68,11 +73,13 @@ Authentication is handled through:
 The app automatically switches between two navigation stacks:
 
 **Public Stack** (Unauthenticated):
+
 - Home Screen
 - Login Screen
 - Register Screen
 
 **Protected Stack** (Authenticated):
+
 - Dashboard Screen
 - (Add more protected screens here)
 
@@ -88,6 +95,7 @@ The app automatically switches between two navigation stacks:
 ## 📡 API Integration
 
 All API calls go through the `api.js` service which:
+
 - Adds JWT token to requests automatically
 - Handles 401 errors (auto-logout)
 - Uses expo-secure-store for token management
@@ -97,6 +105,7 @@ All API calls go through the `api.js` service which:
 When testing on a physical device, you **must** use your computer's local IP address, not `localhost`.
 
 Update the `apiUrl` in `app.json`:
+
 ```json
 "extra": {
   "apiUrl": "http://YOUR_IP_ADDRESS:5000/api"
@@ -106,29 +115,35 @@ Update the `apiUrl` in `app.json`:
 ## 📱 Running on Devices
 
 ### iOS Simulator (Mac only)
+
 ```bash
 npm run ios
 ```
 
 ### Android Emulator
+
 ```bash
 npm run android
 ```
 
 ### Physical Device
+
 ```bash
 npm start
 ```
+
 Then scan the QR code with your device.
 
 ## 📦 Build for Production
 
 ### iOS
+
 ```bash
 expo build:ios
 ```
 
 ### Android
+
 ```bash
 expo build:android
 ```
@@ -143,7 +158,14 @@ expo build:android
 
 ## 🎨 Styling
 
-Currently using StyleSheet API (React Native's built-in styling solution).
+Currently using StyleSheet API (React Native's built-in styling solution). A cross-platform UI kit and theme tokens were added.
+
+See `/DESIGN_GUIDELINES.md` at the repo root for branding, tokens and usage examples.
+
+Available UI kit bits (mobile):
+
+- `src/components/UI/Button.js` — primary/secondary buttons
+- `src/components/UI/Card.js` — rounded cards with soft shadows
 
 ## 🔧 Configuration
 
@@ -159,4 +181,3 @@ Follow React Native and Expo best practices when adding features.
 - Make sure the backend server is running before testing the app
 - Update API URL when switching between development environments
 - Tokens are stored securely using expo-secure-store (different from web localStorage)
-

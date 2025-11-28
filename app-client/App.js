@@ -10,29 +10,59 @@ import RegisterScreen from "./src/screens/RegisterScreen";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AptitudePracticeScreen from "./src/screens/AptitudePracticeScreen";
 import AptitudeStatsScreen from "./src/screens/AptitudeStatsScreen";
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Image, Text, Alert } from 'react-native';
 import CommunicationScreen from "./src/screens/CommunicationScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 
 const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
+  // simple menu via native Alert (keeps navigation logic unchanged)
 
   if (loading) {
     return <LoadingScreen />;
   }
 
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#1a1a1a",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
+    <React.Fragment>
+      <Stack.Navigator
+        screenOptions={({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: "#000000",
+            height: 72,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "#05b5ff",
+          },
+          headerLeft: () => (
+            <View style={{ paddingLeft: 8, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Image source={require('./assets/zoqira_logo.png')} style={{ width: 34, height: 34, resizeMode: 'contain' }} />
+              <Text style={{ fontWeight: '800', fontSize: 16, color: '#05b5ff' }}>ZOQIRA</Text>
+            </View>
+          ),
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert('Menu', 'Choose an option', [
+                  { text: 'Help', onPress: () => navigation.navigate('Communication') },
+                  { text: 'Logout', onPress: () => logout && logout(), style: 'destructive' },
+                  { text: 'Cancel', style: 'cancel' },
+                ]);
+              }}
+              style={{ padding: 8 }}
+            >
+              <View style={{ width: 18, height: 14, justifyContent: 'space-between' }}>
+                <View style={{ height: 2, backgroundColor: '#fff', borderRadius: 2 }} />
+                <View style={{ height: 2, backgroundColor: '#fff', borderRadius: 2 }} />
+                <View style={{ height: 2, backgroundColor: '#fff', borderRadius: 2 }} />
+              </View>
+            </TouchableOpacity>
+          ),
+        })}
     >
       {user ? (
         // Authenticated Stack

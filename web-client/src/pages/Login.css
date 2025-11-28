@@ -1,0 +1,247 @@
+.zq-login-root {
+  display: flex;
+  gap: 28px;
+  min-height: calc(100vh - 64px);
+  align-items: stretch;
+  padding: 36px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+}
+.zq-login-left {
+  flex: 0 0 55%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zq-login-right {
+  flex: 0 0 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zq-login-card {
+  background: #fff;
+  padding: 36px;
+  border-radius: 18px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(10, 30, 80, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(10, 30, 80, 0.04);
+  position: relative;
+  transform: translateZ(0);
+}
+.zq-login-logo {
+  height: 46px;
+  margin-bottom: 12px;
+}
+.zq-login-title {
+  font-size: 32px;
+  margin: 4px 0 8px;
+  color: var(--zq-text-strong);
+  font-weight: 800;
+}
+.zq-login-sub {
+  color: var(--zq-text-muted);
+  margin-bottom: 16px;
+}
+.zq-login-error {
+  background: #fff4f6;
+  color: #c33;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 68, 68, 0.1);
+}
+.zq-login-form {
+  display: flex;
+  flex-direction: column;
+}
+.zq-login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+.zq-forgot {
+  text-decoration: none;
+  color: var(--zq-blue-500);
+  font-weight: 600;
+  font-size: 14px;
+}
+.zq-login-hero {
+  width: 100%;
+  height: 100%;
+  min-height: 640px;
+  object-fit: cover;
+  display: block;
+  transform-origin: center;
+  animation: hero-zoom 12s ease-in-out infinite alternate;
+}
+.zq-login-cta {
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+  color: var(--zq-text-muted);
+}
+
+@media (max-width: 900px) {
+  .zq-login-root {
+    flex-direction: column;
+    padding: 24px;
+  }
+  .zq-login-left,
+  .zq-login-right {
+    flex: 1;
+    width: 100%;
+  }
+  .zq-login-right {
+    order: -1;
+    margin-bottom: 14px;
+  }
+  .zq-login-hero {
+    max-width: 100%;
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 420px) {
+  .zq-login-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .zq-login-title {
+    font-size: 22px;
+  }
+}
+
+/* hero overlay and animations */
+.zq-hero-media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.zq-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(41, 91, 255, 0.6),
+    rgba(74, 140, 255, 0.6)
+  );
+  mix-blend-mode: multiply;
+  animation: overlay-pulse 10s ease-in-out infinite;
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes overlay-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0.62;
+  }
+}
+
+/* floating tech icons */
+.zq-float-icons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: block;
+}
+.zq-float-icons .fi {
+  position: absolute;
+  font-size: 22px;
+  opacity: 0.85;
+  filter: drop-shadow(0 6px 12px rgba(10, 30, 80, 0.12));
+  animation: floaty 8s ease-in-out infinite;
+}
+.zq-float-icons .fi:nth-child(1) {
+  left: 8%;
+  top: 18%;
+  animation-duration: 9s;
+}
+.zq-float-icons .fi:nth-child(2) {
+  left: 22%;
+  top: 72%;
+  animation-duration: 11s;
+}
+.zq-float-icons .fi:nth-child(3) {
+  left: 52%;
+  top: 28%;
+  animation-duration: 8s;
+}
+.zq-float-icons .fi:nth-child(4) {
+  left: 78%;
+  top: 48%;
+  animation-duration: 10s;
+}
+.zq-float-icons .fi:nth-child(5) {
+  left: 66%;
+  top: 12%;
+  animation-duration: 12s;
+}
+
+@keyframes floaty {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-18px) translateX(3px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+/* login card entrance */
+.zq-entrance {
+  opacity: 0;
+  transform: translateX(30px);
+  animation: slidefade 0.7s cubic-bezier(0.2, 0.9, 0.1, 1) forwards;
+}
+@keyframes slidefade {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* input focus glow for underline inputs */
+.zq-input-underline:focus-within {
+  box-shadow: 0 6px 30px rgba(41, 91, 255, 0.12);
+  border-bottom-color: rgba(41, 91, 255, 0.9);
+}
+
+/* stylize primary button micro-pop */
+.zq-primary {
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.zq-primary:hover {
+  transform: scale(1.03);
+  box-shadow: 0 16px 40px rgba(41, 91, 255, 0.18);
+}
+
+/* smaller layout breakpoint for tablet */
+@media (max-width: 1200px) {
+  .zq-login-left {
+    flex-basis: 60%;
+  }
+  .zq-login-right {
+    flex-basis: 40%;
+  }
+}

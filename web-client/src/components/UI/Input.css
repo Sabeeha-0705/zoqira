@@ -1,0 +1,73 @@
+.zq-input-wrapper {
+  display: block;
+  margin-bottom: 12px;
+}
+.zq-input-label {
+  display: block;
+  font-size: 14px;
+  color: var(--zq-text-muted);
+  margin-bottom: 6px;
+}
+.zq-input-field {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 8px 12px;
+  border: 1px solid rgba(10, 30, 80, 0.06);
+  box-shadow: 0 6px 18px rgba(10, 38, 80, 0.03);
+}
+.zq-input-field:focus-within {
+  box-shadow: 0 10px 30px rgba(41, 91, 255, 0.08);
+  border-color: rgba(41, 91, 255, 0.12);
+}
+.zq-input-icon {
+  margin-right: 8px;
+  color: var(--zq-blue-500);
+}
+.zq-input {
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 15px;
+  flex: 1;
+  background: transparent;
+  color: var(--zq-text-strong);
+}
+.zq-input-toggle {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  margin-left: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.zq-input-toggle svg {
+  display: block;
+}
+.zq-input::placeholder {
+  color: #9aa6c0;
+}
+
+/* underline variant used in forms */
+.zq-input-underline {
+  background: transparent;
+  border-radius: 0;
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: none;
+}
+.zq-input-underline:focus-within {
+  border-bottom-color: rgba(41, 91, 255, 0.9);
+}
+.zq-input-underline .zq-input {
+  padding: 6px 0;
+}
+.zq-input-underline .zq-input-label {
+  color: #111;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}

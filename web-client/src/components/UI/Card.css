@@ -1,0 +1,12 @@
+.zq-card {
+  background: var(--zq-card-bg);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 8px 20px rgba(20, 50, 120, 0.04);
+  transition: all 0.18s ease;
+  border: 1px solid rgba(10, 30, 80, 0.02);
+}
+.zq-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(20, 50, 120, 0.06);
+}
