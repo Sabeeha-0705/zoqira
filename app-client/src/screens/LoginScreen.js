@@ -97,90 +97,102 @@ export default function LoginScreen({ navigation }) {
           style={[styles.logo, { transform: [{ scale: logoScale }] }]}
         />
         <Animated.View
-          style={{ transform: [{ translateY: cardTranslate }], opacity: cardOpacity, width: '100%', alignItems: 'center' }}
+          style={{
+            transform: [{ translateY: cardTranslate }],
+            opacity: cardOpacity,
+            width: "100%",
+            alignItems: "center",
+          }}
         >
           <Text style={styles.title}>Welcome Back</Text>
-          <Text style={styles.subtitle}>Login to continue your learning journey</Text>
-
-        <Input
-          placeholder="Email"
-          value={email}
-          onChangeText={(val) => {
-            setEmail(val);
-            const rx = /^\S+@\S+\.\S+$/;
-            setEmailError(!val || rx.test(val) ? "" : "Invalid email address");
-          }}
-          keyboardType="email-address"
-        />
-        {emailError ? (
-          <Text style={{ color: "#e53935", marginBottom: 6 }}>
-            {emailError}
+          <Text style={styles.subtitle}>
+            Login to continue your learning journey
           </Text>
-        ) : null}
-        <Input
-          placeholder="Password"
-          value={password}
-          onChangeText={(val) => {
-            setPassword(val);
-            setPasswordError(
-              !val || val.length >= 6
-                ? ""
-                : "Password must be at least 6 characters"
-            );
-          }}
-          secureTextEntry
-        />
-        {passwordError ? (
-          <Text style={{ color: "#e53935", marginBottom: 6 }}>
-            {passwordError}
-          </Text>
-        ) : null}
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            maxWidth: 420,
-          }}
-        >
-          <Checkbox
-            label="Remember me"
-            checked={remember}
-            onToggle={(v) => setRemember(v)}
+          <Input
+            placeholder="Email"
+            value={email}
+            onChangeText={(val) => {
+              setEmail(val);
+              const rx = /^\S+@\S+\.\S+$/;
+              setEmailError(
+                !val || rx.test(val) ? "" : "Invalid email address"
+              );
+            }}
+            keyboardType="email-address"
           />
-          <TouchableOpacity
-            onPress={() =>
-              Alert.alert(
-                "Reset password",
-                "Use the web portal to reset your password."
-              )
-            }
+          {emailError ? (
+            <Text style={{ color: "#e53935", marginBottom: 6 }}>
+              {emailError}
+            </Text>
+          ) : null}
+          <Input
+            placeholder="Password"
+            value={password}
+            onChangeText={(val) => {
+              setPassword(val);
+              setPasswordError(
+                !val || val.length >= 6
+                  ? ""
+                  : "Password must be at least 6 characters"
+              );
+            }}
+            secureTextEntry
+          />
+          {passwordError ? (
+            <Text style={{ color: "#e53935", marginBottom: 6 }}>
+              {passwordError}
+            </Text>
+          ) : null}
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: 420,
+            }}
           >
-            <Text style={{ color: "#05b5ff", fontWeight: "600" }}>
-              Forgot password?
+            <Checkbox
+              label="Remember me"
+              checked={remember}
+              onToggle={(v) => setRemember(v)}
+            />
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert(
+                  "Reset password",
+                  "Use the web portal to reset your password."
+                )
+              }
+            >
+              <Text style={{ color: "#05b5ff", fontWeight: "600" }}>
+                Forgot password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ width: "100%", maxWidth: 420, marginTop: 18 }}>
+            <Button
+              title={loading ? "Logging in..." : "Login"}
+              onPress={handleLogin}
+              style={{
+                opacity: loading || !!emailError || !!passwordError ? 0.7 : 1,
+              }}
+              disabled={loading || !!emailError || !!passwordError}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Register")}
+            style={{ marginTop: 22 }}
+          >
+            <Text style={styles.link}>
+              Don't have an account? Register here
             </Text>
           </TouchableOpacity>
         </Animated.View>
-
-        <View style={{ width: "100%", maxWidth: 420, marginTop: 18 }}>
-          <Button
-            title={loading ? "Logging in..." : "Login"}
-            onPress={handleLogin}
-            style={{
-              opacity: loading || !!emailError || !!passwordError ? 0.7 : 1,
-            }}
-            disabled={loading || !!emailError || !!passwordError}
-          />
-        </View>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Register")}
-          style={{ marginTop: 22 }}
-        >
-          <Text style={styles.link}>Don't have an account? Register here</Text>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

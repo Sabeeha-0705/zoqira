@@ -10,8 +10,8 @@ import RegisterScreen from "./src/screens/RegisterScreen";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AptitudePracticeScreen from "./src/screens/AptitudePracticeScreen";
 import AptitudeStatsScreen from "./src/screens/AptitudeStatsScreen";
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, Text, Alert } from 'react-native';
+import React, { useState } from "react";
+import { View, TouchableOpacity, Image, Text, Alert } from "react-native";
 import CommunicationScreen from "./src/screens/CommunicationScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 
@@ -39,76 +39,123 @@ function AppNavigator() {
             color: "#05b5ff",
           },
           headerLeft: () => (
-            <View style={{ paddingLeft: 8, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Image source={require('./assets/zoqira_logo.png')} style={{ width: 34, height: 34, resizeMode: 'contain' }} />
-              <Text style={{ fontWeight: '800', fontSize: 16, color: '#05b5ff' }}>ZOQIRA</Text>
+            <View
+              style={{
+                paddingLeft: 8,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              {/* Asset filename contains a trailing space in the repo: 'zoqira_logo .png' */}
+              <Image
+                source={require("./assets/zoqira_logo.png")}
+                style={{ width: 34, height: 34, resizeMode: "contain" }}
+              />
+              <Text
+                style={{ fontWeight: "800", fontSize: 16, color: "#05b5ff" }}
+              >
+                ZOQIRA
+              </Text>
             </View>
           ),
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert('Menu', 'Choose an option', [
-                  { text: 'Help', onPress: () => navigation.navigate('Communication') },
-                  { text: 'Logout', onPress: () => logout && logout(), style: 'destructive' },
-                  { text: 'Cancel', style: 'cancel' },
+                Alert.alert("Menu", "Choose an option", [
+                  {
+                    text: "Help",
+                    onPress: () => navigation.navigate("Communication"),
+                  },
+                  {
+                    text: "Logout",
+                    onPress: () => logout && logout(),
+                    style: "destructive",
+                  },
+                  { text: "Cancel", style: "cancel" },
                 ]);
               }}
               style={{ padding: 8 }}
             >
-              <View style={{ width: 18, height: 14, justifyContent: 'space-between' }}>
-                <View style={{ height: 2, backgroundColor: '#fff', borderRadius: 2 }} />
-                <View style={{ height: 2, backgroundColor: '#fff', borderRadius: 2 }} />
-                <View style={{ height: 2, backgroundColor: '#fff', borderRadius: 2 }} />
+              <View
+                style={{
+                  width: 18,
+                  height: 14,
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    height: 2,
+                    backgroundColor: "#fff",
+                    borderRadius: 2,
+                  }}
+                />
+                <View
+                  style={{
+                    height: 2,
+                    backgroundColor: "#fff",
+                    borderRadius: 2,
+                  }}
+                />
+                <View
+                  style={{
+                    height: 2,
+                    backgroundColor: "#fff",
+                    borderRadius: 2,
+                  }}
+                />
               </View>
             </TouchableOpacity>
           ),
         })}
-    >
-      {user ? (
-        // Authenticated Stack
-        <>
-          <Stack.Screen
-            name="Dashboard"
-            component={DashboardScreen}
-            options={{ title: "ZOQIRA Dashboard" }}
-          />
-          <Stack.Screen
-            name="AptitudePractice"
-            component={AptitudePracticeScreen}
-            options={{ title: "Aptitude Practice" }}
-          />
-          <Stack.Screen
-            name="AptitudeStats"
-            component={AptitudeStatsScreen}
-            options={{ title: "Your Aptitude Stats" }}
-          />
-          <Stack.Screen
-            name="Communication"
-            component={CommunicationScreen}
-            options={{ title: "Communication Coach" }}
-          />
-        </>
-      ) : (
-        // Public Stack
-        <>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ title: "ZOQIRA" }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ title: "Login" }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{ title: "Register" }}
-          />
-        </>
-      )}
-    </Stack.Navigator>
+      >
+        {user ? (
+          // Authenticated Stack
+          <>
+            <Stack.Screen
+              name="Dashboard"
+              component={DashboardScreen}
+              options={{ title: "ZOQIRA Dashboard" }}
+            />
+            <Stack.Screen
+              name="AptitudePractice"
+              component={AptitudePracticeScreen}
+              options={{ title: "Aptitude Practice" }}
+            />
+            <Stack.Screen
+              name="AptitudeStats"
+              component={AptitudeStatsScreen}
+              options={{ title: "Your Aptitude Stats" }}
+            />
+            <Stack.Screen
+              name="Communication"
+              component={CommunicationScreen}
+              options={{ title: "Communication Coach" }}
+            />
+          </>
+        ) : (
+          // Public Stack
+          <>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ title: "ZOQIRA" }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ title: "Login" }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{ title: "Register" }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </React.Fragment>
   );
 }
 
