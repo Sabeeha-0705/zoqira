@@ -1,31 +1,23 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 const {
-  createQuestion,
-  getQuestions,
-  getQuestionById,
-  deleteQuestion,
-  saveAttempt,
-  getMyStats,
-  getLeaderboard
-} = require('../controllers/aptitude.controller');
+  getCategories,
+  getQuestionsByTopic,
+  submitAttempt,
+  getAttempts,
+  getProgress,
+} = require("../controllers/aptitude.controller");
 
-const { protect, authorize } = require('../middleware/auth.middleware');
+const { protect } = require("../middleware/auth.middleware");
 
-router
-  .route('/')
-  .post(protect, authorize('admin'), createQuestion)
-  .get(getQuestions);
+// Public routes
+router.get("/categories", getCategories);
+router.get("/topics/:topic/questions", getQuestionsByTopic);
 
-router.post('/attempt', protect, saveAttempt);
-router.get('/stats/me', protect, getMyStats);
-router.get('/leaderboard', protect, getLeaderboard);
-
-router
-  .route('/:id')
-  .get(getQuestionById)
-  .delete(protect, authorize('admin'), deleteQuestion);
+// Protected routes
+router.post("/attempts", protect, submitAttempt);
+router.get("/attempts", protect, getAttempts);
+router.get("/progress", protect, getProgress);
 
 module.exports = router;
-

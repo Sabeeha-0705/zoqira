@@ -1,44 +1,230 @@
 const AptitudeQuestion = require('../models/AptitudeQuestion.model');
-const AptitudeAttempt = require('../models/AptitudeAttempt.model');
+const QuizAttempt = require('../models/QuizAttempt.model');
+const UserProgress = require('../models/UserProgress.model');
 
-// @desc    Create new aptitude question
-// @route   POST /api/aptitude
-// @access  Private/Admin
-exports.createQuestion = async (req, res, next) => {
+// @desc Get all categories and topics
+// GET /api/aptitude/categories
+exports.getCategories = async (req, res, next) => {
   try {
-    const question = await AptitudeQuestion.create(req.body);
+    const categories = await AptitudeQuestion.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          topics: { $addToSet: '$topic' },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
 
-    return res.status(201).json({
+    res.status(200).json({
       success: true,
-      data: question
+      data: categories,
     });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
-// @desc    Get aptitude questions (with optional filters)
-// @route   GET /api/aptitude
-// @access  Public
-exports.getQuestions = async (req, res, next) => {
+// @desc Get questions by topic with random selection
+// GET /api/aptitude/topics/:topic/questions?difficulty=easy&limit=10
+exports.getQuestionsByTopic = async (req, res, next) => {
   try {
-    const { category, topic, difficulty } = req.query;
-    const filter = {};
+    const { topic } = req.params;
+    const { difficulty, limit = 10 } = req.query;
 
-    if (category) filter.category = category;
-    if (topic) filter.topic = topic;
+    const filter = { topic };
     if (difficulty) filter.difficulty = difficulty;
 
-    const questions = await AptitudeQuestion.find(filter).sort({ createdAt: -1 });
+    const questions = await AptitudeQuestion.find(filter)
+      .limit(parseInt(limit))
+      .sort({ createdAt: -1 });
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       count: questions.length,
-      data: questions
+      data: questions,
     });
   } catch (error) {
-    return next(error);
+    next(error);
   }
+};
+
+// @desc Submit quiz attempt and calculate score
+// POST /api/aptitude/attempts
+// Body: { topic, category, questions: [{ questionId, selectedOptionIndex }], duration }
+exports.submitAttempt = async (req, res, next) => {
+  try {
+    const { topic, category, questions, duration } = req.body;
+    const userId = req.user.id;
+
+    if (!topic || !category || !questions || questions.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'topic, category, and questions are required',
+      });
+    }
+
+    // Validate and score each question
+    const scoredQuestions = [];
+    let correctCount = 0;
+    let pointsEarned = 0;
+
+    for (const q of questions) {
+      const question = await AptitudeQuestion.findById(q.questionId);
+      if (!question) {
+        return res.status(400).json({
+          success: false,
+          message: `Question ${q.questionId} not found`,
+        });
+      }
+
+      const isCorrect = q.selectedOptionIndex === question.correctOptionIndex;
+      if (isCorrect) {
+        correctCount += 1;
+        // Scoring: easy = 10, medium = 20, hard = 30
+        const difficultyPoints = {
+          easy: 10,
+          medium: 20,
+          hard: 30,
+        };
+        pointsEarned += difficultyPoints[question.difficulty] || 10;
+      }
+
+      scoredQuestions.push({
+        questionId: question._id,
+        selectedOptionIndex: q.selectedOptionIndex,
+        correctOptionIndex: question.correctOptionIndex,
+        isCorrect,
+      });
+    }
+
+    const score = (correctCount / questions.length) * 100;
+
+    // Save attempt
+    const attempt = await QuizAttempt.create({
+      user: userId,
+      topic,
+      category,
+      questions: scoredQuestions,
+      score,
+      pointsEarned,
+      totalQuestions: questions.length,
+      correctAnswers: correctCount,
+      duration: duration || 0,
+    });
+
+    // Update user progress
+    let progress = await UserProgress.findOne({ user: userId });
+    if (!progress) {
+      progress = new UserProgress({ user: userId });
+    }
+
+    // Initialize topic stats if not exists
+    if (!progress.topicStats.has(topic)) {
+      progress.topicStats.set(topic, {
+        attempts: 0,
+        correct: 0,
+        wrong: 0,
+        streak: 0,
+        lastAttempt: null,
+        nextReview: null,
+      });
+    }
+
+    const stats = progress.topicStats.get(topic);
+    stats.attempts += 1;
+    stats.correct += correctCount;
+    stats.wrong += questions.length - correctCount;
+    stats.lastAttempt = new Date();
+
+    // Simple SRS: if correct, increase review time; if wrong, reset
+    if (isCorrect) {
+      stats.streak = (stats.streak || 0) + 1;
+      const reviewDays = [1, 3, 7, 14][Math.min(stats.streak - 1, 3)];
+      stats.nextReview = new Date(Date.now() + reviewDays * 24 * 60 * 60 * 1000);
+    } else {
+      stats.streak = 0;
+      stats.nextReview = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000); // 1 day
+    }
+
+    progress.topicStats.set(topic, stats);
+    progress.totalPoints = (progress.totalPoints || 0) + pointsEarned;
+    progress.totalAttempts = (progress.totalAttempts || 0) + 1;
+
+    // Simple level assignment based on points
+    if (progress.totalPoints >= 500) progress.level = 'advanced';
+    else if (progress.totalPoints >= 200) progress.level = 'intermediate';
+    else progress.level = 'beginner';
+
+    await progress.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Attempt submitted successfully',
+      data: {
+        attempt,
+        progress: {
+          totalPoints: progress.totalPoints,
+          totalAttempts: progress.totalAttempts,
+          level: progress.level,
+          topicStats: Object.fromEntries(progress.topicStats),
+        },
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc Get user's quiz attempts
+// GET /api/aptitude/attempts?topic=...
+exports.getAttempts = async (req, res, next) => {
+  try {
+    const { topic } = req.query;
+    const userId = req.user.id;
+
+    const filter = { user: userId };
+    if (topic) filter.topic = topic;
+
+    const attempts = await QuizAttempt.find(filter)
+      .populate('user', 'name email username')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: attempts.length,
+      data: attempts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc Get user progress
+// GET /api/aptitude/progress
+exports.getProgress = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    let progress = await UserProgress.findOne({ user: userId });
+    if (!progress) {
+      progress = new UserProgress({ user: userId });
+      await progress.save();
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalPoints: progress.totalPoints,
+        totalAttempts: progress.totalAttempts,
+        level: progress.level,
+        topicStats: Object.fromEntries(progress.topicStats),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 };
 
 // @desc    Get single aptitude question

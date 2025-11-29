@@ -1,14 +1,41 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-// Generate JWT Token
-exports.generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '7d'
+// Generate access token (short-lived)
+exports.generateAccessToken = (userId) => {
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE || "7d",
   });
 };
 
-// Verify JWT Token
-exports.verifyToken = (token) => {
+// Generate refresh token (long-lived)
+exports.generateRefreshToken = (userId) => {
+  return jwt.sign(
+    { id: userId },
+    process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.REFRESH_EXPIRES || "30d",
+    }
+  );
+};
+
+// Verify access token
+exports.verifyAccessToken = (token) => {
   return jwt.verify(token, process.env.JWT_SECRET);
 };
 
+// Verify refresh token
+exports.verifyRefreshToken = (token) => {
+  return jwt.verify(
+    token,
+    process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET
+  );
+};
+
+// Legacy: for backward compatibility
+exports.generateToken = (id) => {
+  return exports.generateAccessToken(id);
+};
+
+exports.verifyToken = (token) => {
+  return exports.verifyAccessToken(token);
+};
