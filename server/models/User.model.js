@@ -25,6 +25,8 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      minlength: [3, "Username must be at least 3 characters"],
+      maxlength: [30, "Username must not exceed 30 characters"],
     },
     password: {
       type: String,
@@ -41,30 +43,54 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Profile fields
+    bio: {
+      type: String,
+      maxlength: [500, "Bio must not exceed 500 characters"],
+      default: "",
+    },
+    avatarUrl: {
+      type: String,
+      default: null,
+    },
+    location: {
+      type: String,
+      maxlength: [100, "Location must not exceed 100 characters"],
+      default: "",
+    },
+    birthday: {
+      type: Date,
+      default: null,
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other", "not-specified"],
+      default: "not-specified",
+    },
     // Refresh token stored for session management (rotating tokens can be implemented)
     refreshToken: {
       type: String,
       select: false,
-      default: null
+      default: null,
     },
     // Email verification token
     emailVerificationToken: {
       type: String,
       select: false,
-      default: null
+      default: null,
     },
     emailVerificationExpires: {
-      type: Date
+      type: Date,
     },
     // Password reset token
     resetPasswordToken: {
       type: String,
       select: false,
-      default: null
+      default: null,
     },
     resetPasswordExpires: {
-      type: Date
-    }
+      type: Date,
+    },
   },
   {
     timestamps: true,
